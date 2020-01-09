@@ -19,6 +19,8 @@ public class MainActivityViewModel extends AndroidViewModel
     private boolean waitingBotTranslation;
     private String translateCountryCode = "es";
 
+    private boolean tts;
+
     private RecyclerViewAdapter recyclerViewAdapter;
 
     public MainActivityViewModel(@NonNull Application application)
@@ -38,6 +40,8 @@ public class MainActivityViewModel extends AndroidViewModel
                     onTranslationResultListener.OnTranslationResult(ok, text, countryCode);
             }
         });
+
+        tts = true;
     }
 
     public RecyclerViewAdapter getRecyclerViewAdapter()
@@ -96,5 +100,15 @@ public class MainActivityViewModel extends AndroidViewModel
         DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
         Date date = new Date();
         return dateFormat.format(date);
+    }
+
+    public boolean isTts()
+    {
+        return tts;
+    }
+
+    public void setTts(boolean tts)
+    {
+        this.tts = tts;
     }
 }

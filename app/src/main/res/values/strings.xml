@@ -2,4 +2,9 @@
     <string name="app_name">ChatterBot</string>
     <string name="btSend">Enviar</string>
     <string name="etText">Escribe un mensaje</string>
+    <string name="action_tts">Escuchar</string>
+    <string name="action_stt">Hablar</string>
+    <string name="toastTts">Lectura habilitida</string>
+    <string name="toastTtsOff">Lectura deshabilitida</string>
+    <string name="toastNoStt">Tu dispositivo no soporta esta opción</string>
 </resources>
