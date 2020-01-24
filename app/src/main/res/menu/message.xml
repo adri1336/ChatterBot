@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/message_info"
+        android:title="@string/message_info"/>
+    <item
+        android:id="@+id/message_listen"
+        android:title="@string/message_listen"/>
+</menu>  

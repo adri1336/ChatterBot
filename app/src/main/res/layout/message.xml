@@ -12,8 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bubble_incoming"
+        android:clickable="true"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:focusable="true">
 
         <TextView
             android:id="@+id/tvMessage"
@@ -33,6 +35,7 @@
             android:gravity="bottom"
             android:textSize="12sp"
             android:textStyle="italic"
+            android:visibility="visible"
             tools:text="13:20 PM" />
     </LinearLayout>
 

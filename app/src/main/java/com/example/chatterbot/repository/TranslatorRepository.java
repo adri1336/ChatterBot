@@ -30,7 +30,7 @@ public class TranslatorRepository
         translatorClient = retrofit.create(TranslatorClient.class);
     }
 
-    public void translate(String fromLang, String text, String to)
+    public void translate(String fromLang, final String text, String to)
     {
         Call<List<TranslationResponse>> call = translatorClient.postTranslator(fromLang, text, to);
         call.enqueue(new Callback<List<TranslationResponse>>()
@@ -43,7 +43,7 @@ public class TranslatorRepository
                     DetectedLanguage detectedLanguage = response.body().get(0).getDetectedLanguage();
                     Translation translation = response.body().get(0).getTranslations().get(0);
 
-                    onTranslationResultListener.OnTranslationResult(true, translation.getText(), detectedLanguage.getLanguage());
+                    onTranslationResultListener.OnTranslationResult(true, translation.getText(), text, detectedLanguage.getLanguage());
                 }
             }
 
@@ -51,7 +51,7 @@ public class TranslatorRepository
             public void onFailure(Call<List<TranslationResponse>> call, Throwable t)
             {
                 if(onTranslationResultListener != null)
-                    onTranslationResultListener.OnTranslationResult(false, "", "");
+                    onTranslationResultListener.OnTranslationResult(false, "", "", "");
             }
         });
     }
@@ -63,6 +63,6 @@ public class TranslatorRepository
 
     public interface OnTranslationResult
     {
-        void OnTranslationResult(boolean ok, String text, String countryCode);
+        void OnTranslationResult(boolean ok, String text, String originalText, String countryCode);
     }
 }

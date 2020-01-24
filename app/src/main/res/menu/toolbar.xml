@@ -13,4 +13,10 @@
         android:title="@string/action_stt"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_mic_black_24dp"/>
+    <item
+        android:id="@+id/action_disconnect"
+        android:orderInCategory="100"
+        android:title="@string/action_disconnect"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_transfer_within_a_station_black_24dp"/>
 </menu>

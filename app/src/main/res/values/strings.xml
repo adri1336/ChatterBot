@@ -7,4 +7,16 @@
     <string name="toastTts">Lectura habilitida</string>
     <string name="toastTtsOff">Lectura deshabilitida</string>
     <string name="toastNoStt">Tu dispositivo no soporta esta opción</string>
+    <string name="message_info">Información</string>
+    <string name="message_listen">Escuchar</string>
+    <string name="message_info_title">Información del mensaje</string>
+    <string name="message_info_close">Cerrar</string>
+    <string name="message_info_date">Fecha:</string>
+    <string name="tilEmail">Correo electrónico</string>
+    <string name="tilPassword">Contraseña</string>
+    <string name="btLogin">Ingresar</string>
+    <string name="btRegister">Registrarse</string>
+    <string name="cbRememberLogin">Mantener sesión abierta</string>
+    <string name="toastInvalidData">Introduce un correo y una contraseña</string>
+    <string name="action_disconnect">Salir</string>
 </resources>

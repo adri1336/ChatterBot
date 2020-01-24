@@ -1,7 +1,10 @@
 package com.example.chatterbot.view;
 
+import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -13,12 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chatterbot.R;
 import com.example.chatterbot.data.Message;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>
 {
     private List<Message> messages = new ArrayList<>();
+    private OnMessageClickListener onMessageClickListener;
 
     @NonNull
     @Override
@@ -28,22 +33,74 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new ViewHolder(view);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull final RecyclerViewAdapter.ViewHolder holder, int position)
     {
-        Message message = messages.get(position);
-        if(message.isOutcoming())
+        final Message message = messages.get(position);
+        if(message.isDateInfo())
         {
-            holder.contentLinearLayout.setGravity(Gravity.END);
-            holder.messageLinearLayout.setBackgroundResource(R.drawable.bubble_outcoming);
+            holder.messageLinearLayout.setLongClickable(false);
+            holder.messageLinearLayout.setClickable(false);
+            holder.contentLinearLayout.setGravity(Gravity.CENTER);
+            holder.messageLinearLayout.setBackgroundResource(R.drawable.bubble_date);
+            holder.tvMessage.setText(DateFormat.getDateInstance(DateFormat.LONG).format(message.getDate()));
+            holder.tvTime.setVisibility(View.GONE);
         }
         else
         {
-            holder.contentLinearLayout.setGravity(Gravity.START);
-            holder.messageLinearLayout.setBackgroundResource(R.drawable.bubble_incoming);
+            holder.messageLinearLayout.setLongClickable(true);
+            holder.messageLinearLayout.setClickable(true);
+            if(message.isOutcoming())
+            {
+                holder.contentLinearLayout.setGravity(Gravity.END);
+                holder.messageLinearLayout.setBackgroundResource(R.drawable.bubble_outcoming);
+            }
+            else
+            {
+                holder.contentLinearLayout.setGravity(Gravity.START);
+                holder.messageLinearLayout.setBackgroundResource(R.drawable.bubble_incoming);
+            }
+            holder.tvMessage.setText(message.getMessage());
+            holder.tvTime.setVisibility(View.VISIBLE);
+            holder.tvTime.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(message.getDate()));
+
+            holder.messageLinearLayout.setOnTouchListener(new View.OnTouchListener()
+            {
+                @Override
+                public boolean onTouch(View v, MotionEvent event)
+                {
+                    int action = event.getAction();
+                    switch(action)
+                    {
+                        case MotionEvent.ACTION_DOWN:
+                        {
+                            holder.messageLinearLayout.setBackgroundResource(R.drawable.bubble_date);
+                            break;
+                        }
+                        default:
+                        {
+                            holder.messageLinearLayout.setBackgroundResource(message.isOutcoming() ? R.drawable.bubble_outcoming : R.drawable.bubble_incoming);
+                            break;
+                        }
+                    }
+                    return false;
+                }
+            });
+
+            if(onMessageClickListener != null)
+            {
+                holder.messageLinearLayout.setOnLongClickListener(new View.OnLongClickListener()
+                {
+                    @Override
+                    public boolean onLongClick(View v)
+                    {
+                        onMessageClickListener.onClick(message, holder.messageLinearLayout);
+                        return true;
+                    }
+                });
+            }
         }
-        holder.tvMessage.setText(message.getMessage());
-        holder.tvTime.setText(message.getTime());
     }
 
     @Override
@@ -70,5 +127,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     {
         messages.add(message);
         notifyItemInserted(messages.size());
+    }
+
+    public void setOnMessageClickListener(OnMessageClickListener onMessageClickListener)
+    {
+        this.onMessageClickListener = onMessageClickListener;
+    }
+
+    public interface OnMessageClickListener
+    {
+        void onClick(Message message, LinearLayout linearLayout);
     }
 }
